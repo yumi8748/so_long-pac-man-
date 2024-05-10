@@ -6,7 +6,7 @@
 /*   By: yu-chen <yu-chen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:48:32 by yu-chen           #+#    #+#             */
-/*   Updated: 2024/05/03 15:26:00 by yu-chen          ###   ########.fr       */
+/*   Updated: 2024/05/10 14:28:21 by yu-chen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,14 @@ void	flood_fill(char **map, t_lay *lay, int i, int j)
 		return ;
 	if (map[i][j] == 'C')
 		lay->n_collect--;
-	if (map[i][j] == 'E')
-	{
-		lay->n_exit--;
-	}
 	map[i][j] = '1';
-	if (map[i + 1][j] != '1' && map[i + 1][j] != '\0')
+	if (map[i + 1][j] != '1' && map[i + 1][j] != 'E' && map[i + 1][j] != '\0')
 		flood_fill(map, lay, i + 1, j);
-	if (map[i][j + 1] != '1' && map[i][j + 1] != '\0')
+	if (map[i][j + 1] != '1' && map[i][j + 1] != 'E' && map[i][j + 1] != '\0')
 		flood_fill(map, lay, i, j + 1);
-	if (map[i - 1][j] != '1' && map[i - 1][j] != '\0')
+	if (map[i - 1][j] != '1' && map[i - 1][j] != 'E' && map[i - 1][j] != '\0')
 		flood_fill(map, lay, i - 1, j);
-	if (map[i][j - 1] != '1' && map[i][j - 1] != '\0')
+	if (map[i][j - 1] != '1' && map[i][j - 1] != 'E' && map[i][j - 1] != '\0')
 		flood_fill(map, lay, i, j - 1);
 	return ;
 }
@@ -74,7 +70,7 @@ int	check_map_path(char **map, t_lay *lay)
 	find_player(map_bak, &i, &j);
 	flood_fill(map_bak, &new_lay, i, j);
 	ft_free_matrix(&map_bak);
-	if (new_lay.n_collect || new_lay.n_exit)
+	if (new_lay.n_collect)
 	{
 		ft_free_matrix(&map);
 		error_msg_params("Invalid Path!", map);
